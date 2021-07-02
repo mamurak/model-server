@@ -7,9 +7,10 @@ This example builds and pushes to a local registry running on Fedora 34. The Ope
 Start the podman service as a rootless user.
 
 ```
-$ export DOCKER_HOST=tcp://127.0.0.1:8080
-
-$ podman system service --time=0 tcp:0.0.0.0:8080
+export DOCKER_HOST=tcp://127.0.0.1:8080
+```
+```
+podman system service --time=0 tcp:0.0.0.0:8080
 ```
 
 Download [`func` binary](https://github.com/boson-project/func/tags).
