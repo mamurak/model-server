@@ -5,7 +5,7 @@
 
 - Fedora 34
   - `podman` is needed to build images.
-  - A container registry (local, quay.io, docker.io, OpenShift, etc) that can be written to. 
+  - A container registry (local, quay.io, docker.io, OpenShift) with write privs. 
   - The [`func` binary](https://github.com/boson-project/func/tags)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
