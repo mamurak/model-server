@@ -1,16 +1,13 @@
-# Serverless/KNative Functions
-
-Deploying a machine learning model with OpenShift Serverless Functions.
-
-## Notes
+# Deploying a machine learning model with OpenShift Serverless Functions.
+## My notes
 
 ### My setup
 
-- A Fedora 34 system
-  - `podman`
-  - A container registry (local, quay.io, docker.io, OpenShift, etc) 
+- Fedora 34
+  - `podman` is needed to build images.
+  - A container registry (local, quay.io, docker.io, OpenShift, etc) that can be written to. 
   - The [`func` binary](https://github.com/boson-project/func/tags)
-  - An OpenShift 4.7 cluster with Serverless support.
+  - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
 Start the podman API service as a rootless user.
 
