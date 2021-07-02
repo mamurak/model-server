@@ -1,0 +1,12 @@
+name: model-server
+namespace: ""
+runtime: python
+image: bob.kozdemba.com:5000/redhat/model-server:latest
+imageDigest: sha256:c6877fdd2a788ec9a03b9d121ef1f4d58fe73f3052f0c8c952b5689618ae3ac9
+builder: quay.io/boson/faas-python-builder:v0.8.3
+builderMap:
+  default: quay.io/boson/faas-python-builder:v0.8.3
+volumes: []
+envs: []
+annotations: {}
+options: {}
