@@ -43,7 +43,12 @@ Build and create the image. This example uses a private registry.
 func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
 ```
 
-Deploy to OpenShift via private registry.
+At this point, the container could be run from `podman`.
+```
+podman run --rm --name=model-server -p8081:8080 -d reg.redhatgov.io:5000/redhat/model-server:latest
+```
+
+Finally, deploy to OpenShift via private registry.
 
 ```
 func deploy
