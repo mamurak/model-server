@@ -64,7 +64,7 @@ func deploy
 Send data with a `curl` POST.
 
 ```
-curl -X POST -H "Content-Type: application/json" -d "mydata":"30" http://myfunc3-functions.apps.shared-na46.openshift.opentlc.com
+curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-functions.apps.shared-na46.openshift.opentlc.com
 ```
 
 ### Creating a serverless function from scratch.
