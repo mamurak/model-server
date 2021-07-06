@@ -34,6 +34,8 @@ def main(context: Context):
     #
     # Load the model from storage.
     #
+    logging.warning(f'--------- context: {context}')
+    
     if model == None:
         logging.warning(f'************** Loading model.')
         try:
