@@ -4,18 +4,21 @@ import json
 import pickle
 import numpy as np
  
+model = None
+
 def main(context: Context):
     """ 
     Serverless Function 
     The context parameter contains the Flask request object and any
     CloudEvent received with the request.
     """
-    model = None
     r = context.request
     
     #
     # Debug output.
     #
+    logging.warning(f'')
+    logging.warning(f'')
     logging.warning(f'**************************************************************')
     logging.warning(f'************** main function called.')
     logging.warning(f'**************  context.request: {r}')
@@ -34,7 +37,7 @@ def main(context: Context):
     #
     # Load the model from storage.
     #
-    logging.warning(f'--------- context: {context}')
+    global model
     
     if model == None:
         logging.warning(f'************** Loading model.')
@@ -71,5 +74,7 @@ def main(context: Context):
     output = {'y_hat': int(y_hat[0])}
     logging.warning(f'************** prediction: {output}')
     logging.warning(f'**************************************************************')
+    logging.warning(f'')
+    logging.warning(f'')
    
     return { "prediction": output['y_hat'] }, 200
