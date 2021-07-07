@@ -9,7 +9,7 @@
   - The [`func` binary](https://github.com/boson-project/func/tags)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
-Start the podman API service as a rootless user.
+1a) Start the podman API service as a rootless user.
 
 ```
 podman system service --time=0 tcp:0.0.0.0:8080
@@ -18,19 +18,29 @@ podman system service --time=0 tcp:0.0.0.0:8080
 export DOCKER_HOST=tcp://127.0.0.1:8080
 ```
 
-- Download the [`func` binary](https://github.com/boson-project/func/tags) and install it
+1b) Or use UNIX sockets.
+
+```
+systemctl --user enable --now podman.socket
+```
+
+```
+export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
+```
+
+2) Download the [`func` binary](https://github.com/boson-project/func/tags) and install it
 in `$PATH`.
 
 - Make sure `/tmp` has ~512MB of free space.
 
-- Use `podman` to login to the registry and create an auth file to cache credentials. 
+3) Use `podman` to login to the registry and create an auth file to cache credentials. 
 ```
 podman login --authfile $HOME/.docker/config.json reg.redhatgov.io:5000
 ```
 
-- Login to an OpenShift cluster with serverless support.
+4a) Login to an OpenShift cluster with serverless support.
 
-- If using an external registry that requires authentication, create and link a secret so OpenShift can pull images from it. 
+4b) If using an external registry that requires authentication, create and link a secret so OpenShift can pull images from it. 
 ```
 oc create secret docker-registry reg.redhatgov.io --docker-server=reg.redhatgov.io:5000 --docker-username=redhat --docker-password=password
 ```
@@ -38,17 +48,23 @@ oc create secret docker-registry reg.redhatgov.io --docker-server=reg.redhatgov.
 oc secrets link default reg.redhatgov.io --for=pull
 ```
 
-- Build and create the image. This example uses a private registry.
+5) Build and create the image. This example uses a private registry.
 ```
 func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
 ```
 
-At this point, the container could be run from `podman`.
+6a) Run the container.
+
+```
+func run
+```
+
+6b) At this point, the container could be run from `podman`.
 ```
 podman run --rm --name=model-server -p8081:8080 -d reg.redhatgov.io:5000/redhat/model-server:latest
 ```
 
-- Finally, deploy to OpenShift via private registry.
+7) Finally, deploy to OpenShift via private registry.
 
 ```
 func deploy
