@@ -1,5 +1,4 @@
 # Deploying a machine learning model with OpenShift Serverless Functions.
-## My notes
 
 ### My setup
 
@@ -9,16 +8,16 @@
   - The [`func` binary](https://github.com/boson-project/func/tags)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
-1a) Start the podman API service as a rootless user.
+1) Start the podman API service as a rootless user. Don't use port 8080.
 
 ```
-podman system service --time=0 tcp:0.0.0.0:8080
+podman system service --time=0 tcp:0.0.0.0:1234
 ```
 ```
-export DOCKER_HOST=tcp://127.0.0.1:8080
+export DOCKER_HOST=tcp://127.0.0.1:1234
 ```
 
-1b) Or use UNIX sockets.
+Or use UNIX sockets.
 
 ```
 systemctl --user enable --now podman.socket
@@ -38,9 +37,9 @@ in `$PATH`.
 podman login --authfile $HOME/.docker/config.json reg.redhatgov.io:5000
 ```
 
-4a) Login to an OpenShift cluster with serverless support.
+4) Login to an OpenShift cluster with serverless support.
 
-4b) If using an external registry that requires authentication, create and link a secret so OpenShift can pull images from it. 
+If an external registry that requires authentication is being used, create and link a secret so OpenShift can pull images from it. 
 ```
 oc create secret docker-registry reg.redhatgov.io --docker-server=reg.redhatgov.io:5000 --docker-username=redhat --docker-password=password
 ```
@@ -53,18 +52,25 @@ oc secrets link default reg.redhatgov.io --for=pull
 func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
 ```
 
-6a) Run the container.
+6) Run the container.
 
 ```
 func run
 ```
 
-6b) At this point, the container could be run from `podman`.
+The container could also be run from directly from `podman`.
 ```
-podman run --rm --name=model-server -p8081:8080 -d reg.redhatgov.io:5000/redhat/model-server:latest
+podman run --rm --name=model-server -p8080:8080 -d reg.redhatgov.io:5000/redhat/model-server:latest
 ```
 
-7) Finally, deploy to OpenShift via private registry.
+7) Test locally by sending data with a `curl`.
+
+```
+curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://127.0.0.1:8080
+```
+
+
+8) Finally, deploy to OpenShift via private registry.
 
 ```
 func deploy
