@@ -20,7 +20,7 @@ def main(context: Context):
     logging.warning(f'')
     logging.warning(f'')
     logging.warning(f'**************************************************************')
-    logging.warning(f'************** main function called.')
+    logging.warning(f'************** main() called.')
     logging.warning(f'**************  context.request: {r}')
     logging.warning(f'**************  content_length: {r.content_length}')
     logging.warning(f'**************  get_data: {r.get_data()}')
