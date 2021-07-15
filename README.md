@@ -5,7 +5,7 @@
 - Fedora 34
   - `podman` to build images.
   - A container registry (local, quay.io, docker.io, OpenShift) with write privs. 
-  - The knative `kn` binary with the `func` plugin. (See the [manual config](###Manual-Configuration) section below)
+  - The knative `kn` binary with the `func` plugin. (See the [manual config](#manual-configuration) section)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
 1) Start the podman API service as a rootless user. 
