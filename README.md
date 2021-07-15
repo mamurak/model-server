@@ -1,13 +1,28 @@
 # Deploying a machine learning model with OpenShift Serverless Functions.
+![Iris Data Set](/images/iris.jpg "Iris Data Set")
 
-### My setup
+This project is a simple example on how to deploy a machine learning model using OpenShift Serverless Functions. The SciKit Learn Random Forest Classifier model is trained using R.A. Fisher's famous [Iris data set](https://archive.ics.uci.edu/ml/datasets/iris).
+
+#### The Server
+
+`func.py` - A python program that runs in a container when the pod gets scheduled. It contains the `main()` 
+serverless function that gets invoked when an http request is received.  
+
+Code outside of `main()` will get loaded once when the pod runs and is considered in process scope. Code 
+inside of `main()` is invoked each time an http request is made and will contain a new context object.
+
+#### The Client
+`01-iris-rest-client.ipynb` - An example Jupyter notebook client program that will make REST calls this the service to make predictions.
+
+#### The Setup
 
 - Fedora 34
-  - `podman` to build images.
+  - `podman` to build and run containers.
   - A container registry (local, quay.io, docker.io, OpenShift) with write privs. 
   - The knative `kn` binary with the `func` plugin. (See the [manual config](#manual-configuration) section)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
+#### How to build, deploy and serve the model in this repo.
 1) Start the podman API service as a rootless user. 
 
 ```
@@ -89,7 +104,7 @@ curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, 
 - `/tmp` and `podman` can run out of free space.
 - Don't use port 8080 for the `podman` API service or it will conflict with `kn func run`.
 
-### Manual Configuration
+#### Manual Configuration
 1) Download the [kn binary](https://github.com/knative/client/tags), `chmod u+x` and place it in `$PATH`.
 ```
 chmod u+x kn-linux-amd64
@@ -117,7 +132,7 @@ kn plugin list
 - kn-func : /home/koz/.config/kn/plugins/kn-func
 ```
 
-### Autoscaling
+#### Autoscaling
 
 1) Get the service name.
 ```
@@ -131,7 +146,7 @@ kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --
 
 4) To change the autoscale window use `--autoscale-window=90s`
 
-### Creating a serverless function from scratch.
+#### Creating a serverless function from scratch.
 ```
 mkdir functions
 ```
