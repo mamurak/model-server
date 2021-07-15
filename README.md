@@ -5,7 +5,7 @@
 - Fedora 34
   - `podman` to build images.
   - A container registry (local, quay.io, docker.io, OpenShift) with write privs. 
-  - The [`func` binary](https://github.com/knative-sandbox/kn-plugin-func/tags)
+  - The knative `kn` binary with the `func` plugin. (See the [manual config](###Manual-Configuration) section below)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
 1) Start the podman API service as a rootless user. 
@@ -47,13 +47,13 @@ oc secrets link default reg.redhatgov.io --for=pull
 
 5) Build and create the image. This example uses a private registry.
 ```
-func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
+kn func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
 ```
 
 6) Run the container.
 
 ```
-func run
+kn func run
 ```
 
 The container could also be run from directly from `podman`.
@@ -71,7 +71,7 @@ curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, 
 8) Finally, deploy to OpenShift via private registry.
 
 ```
-func deploy
+kn func deploy
 ```
 ```
 ...
@@ -140,7 +140,7 @@ kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --
 mkdir functions
 ```
 ```
-func create --runtime=python functions/myfunc
+kn func create --runtime=python functions/myfunc
 ```
 
 Build, run and deploy the same as above.
