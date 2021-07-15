@@ -143,23 +143,7 @@ mkdir functions
 func create --runtime=python functions/myfunc
 ```
 
-Build
-```
-func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
-```
-
-Deploy
-```
-func deploy
-```
-Test
-
-```
-curl http://myfunc-functions.apps.shared-na46.openshift.opentlc.com
-```
-```
-{"message":"Howdy!"}
-```
+Build, run and deploy the same as above.
 
 #### Reference
 
