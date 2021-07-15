@@ -3,12 +3,12 @@
 ### My setup
 
 - Fedora 34
-  - `podman` is needed to build images.
+  - `podman` to build images.
   - A container registry (local, quay.io, docker.io, OpenShift) with write privs. 
   - The [`func` binary](https://github.com/boson-project/func/tags)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
-1) Start the podman API service as a rootless user. Don't use port 8080.
+1) Start the podman API service as a rootless user. 
 
 ```
 podman system service --time=0 tcp:0.0.0.0:1234
@@ -29,8 +29,6 @@ export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
 
 2) Download the [`func` binary](https://github.com/boson-project/func/tags) and install it
 in `$PATH`.
-
-- Make sure `/tmp` has ~512MB of free space.
 
 3) Use `podman` to login to the registry and create an auth file to cache credentials. 
 ```
@@ -88,6 +86,24 @@ Send data with a `curl` POST.
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-functions.apps.shared-na46.openshift.opentlc.com
 ```
+
+#### Troubleshooting
+
+- `/tmp` and `podman` can run out of free space.
+- Don't use port 8080 for the `podman` API service or it will conflict with `func run`.
+
+### Autoscaling
+
+1) To force autoscaling, first install the `kn` binary.
+2) Get the service name.
+```
+kn service list
+```
+3) Update the autoscale parameters with unusually low values.
+```
+kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30
+```
+4) Curl the endpoint a few times and it should trigger a number pods to run.
 
 ### Creating a serverless function from scratch.
 ```
