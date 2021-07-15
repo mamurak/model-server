@@ -8,7 +8,7 @@ This project is a simple example on how to deploy a machine learning model using
 `func.py` - A python program that runs in a container when the pod gets scheduled. It contains the `main()` 
 serverless function that gets invoked when an http request is received.  
 
-Code outside of `main()` will get loaded once when the pod runs and is considered in process scope. Code 
+Code outside of `main()` will get loaded once when the pod runs and can be considered in global scope. Code 
 inside of `main()` is invoked each time an http request is made and will contain a new context object.
 
 #### The Client
