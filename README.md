@@ -11,8 +11,10 @@ serverless function that gets invoked when an http request is received.
 Code outside of `main()` will get loaded once when the pod runs and can be considered in global scope. Code 
 inside of `main()` is invoked each time an http request is made and will contain a new context object.
 
+The server takes care of loading the ML model, preparing the incoming data, calling the model predictor and returning the prediction to the client.
+
 #### The Client
-`01-iris-rest-client.ipynb` - An example Jupyter notebook client program that will make REST calls to the service and in turn make predictions.
+`01-iris-rest-client.ipynb` - An example Jupyter notebook client program that will make REST calls to the service.
 
 #### The Setup
 
