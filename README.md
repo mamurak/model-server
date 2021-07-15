@@ -98,11 +98,19 @@ Send data with a `curl` POST.
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-functions.apps.shared-na46.openshift.opentlc.com
 ```
+#### Autoscaling
 
-#### Troubleshooting
+1) Get the service name.
+```
+kn service list
+```
+2) Update the autoscale parameters with unusually low values.
+```
+kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30
+```
+3) Curl the endpoint a few times and it should trigger a number pods to run.
 
-- `/tmp` and `podman` can run out of free space.
-- Don't use port 8080 for the `podman` API service or it will conflict with `kn func run`.
+4) To change the autoscale window use `--autoscale-window=90s`
 
 #### Manual Configuration
 1) Download the [kn binary](https://github.com/knative/client/tags), `chmod u+x` and place it in `$PATH`.
@@ -132,19 +140,11 @@ kn plugin list
 - kn-func : /home/koz/.config/kn/plugins/kn-func
 ```
 
-#### Autoscaling
+#### Troubleshooting
 
-1) Get the service name.
-```
-kn service list
-```
-2) Update the autoscale parameters with unusually low values.
-```
-kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30
-```
-3) Curl the endpoint a few times and it should trigger a number pods to run.
+- `/tmp` and `podman` can run out of free space.
+- Don't use port 8080 for the `podman` API service or it will conflict with `kn func run`.
 
-4) To change the autoscale window use `--autoscale-window=90s`
 
 #### Creating a serverless function from scratch.
 ```
