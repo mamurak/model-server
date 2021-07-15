@@ -9,7 +9,7 @@ It is based on a SciKit Learn Random Forest Classifier model that is trained usi
 The server takes care of loading the ML model, preparing the incoming data, calling the model predictor and returning the prediction to the client.
 
 It consists of a python program `func.py`, which runs in a container when the pod gets scheduled. The program contains the `main()` 
-serverless function which gets invoked when an http request is received. Code outside of `main()` gets loaded once when the pod runs and can be considered in global scope. 
+serverless function, which gets invoked when an http request is received. Code outside of `main()` gets loaded once when the pod runs and can be considered in global scope. 
 Code inside of `main()` is invoked each time an http request is made and contains a new context object.
 
 #### The Client
