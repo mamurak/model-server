@@ -1,7 +1,8 @@
 # Deploying a machine learning model with OpenShift Serverless Functions.
 ![Iris Data Set](/images/iris.jpg "Iris Data Set")
 
-This project is a simple example on how to deploy a machine learning model using OpenShift Serverless Functions. The SciKit Learn Random Forest Classifier model is trained using R.A. Fisher's famous [Iris data set](https://archive.ics.uci.edu/ml/datasets/iris).
+This project is a simple example on how to deploy a machine learning model using OpenShift Serverless Functions. 
+It is based on a SciKit Learn Random Forest Classifier model that is trained using R.A. Fisher's famous [Iris data set](https://archive.ics.uci.edu/ml/datasets/iris).
 
 #### The Server
 
