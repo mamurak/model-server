@@ -5,7 +5,7 @@
 - Fedora 34
   - `podman` to build images.
   - A container registry (local, quay.io, docker.io, OpenShift) with write privs. 
-  - The [`func` binary](https://github.com/boson-project/func/tags)
+  - The [`func` binary](https://github.com/knative-sandbox/kn-plugin-func/tags)
   - Developer access to an OpenShift 4.7 cluster with Serverless support.
 
 1) Start the podman API service as a rootless user. 
@@ -92,6 +92,34 @@ curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, 
 - `/tmp` and `podman` can run out of free space.
 - Don't use port 8080 for the `podman` API service or it will conflict with `func run`.
 
+### Manual Configuration
+1) Download the [kn binary](https://github.com/knative/client/tags), `chmod u+x` and place it in `$PATH`.
+```
+chmod u+x kn-linux-amd64
+mv kn-linux-amd64 $HOME/.local/bin/kn
+```
+
+2) Make the plugin directory
+```
+mkdir $HOME/.config/kn/plugins
+```
+
+3) [Download](https://github.com/knative-sandbox) your favorite plugins and install them in `$HOME/.config/kn/plugins`.
+```
+chmod u+x func_linux_amd64
+mv func_linux_amd64 
+$HOME/.config/kn/plugins/kn-func
+```
+
+4) Verify
+```
+kn plugin list
+```
+```
+- kn-admin : /home/koz/.config/kn/plugins/kn-admin
+- kn-func : /home/koz/.config/kn/plugins/kn-func
+```
+
 ### Autoscaling
 
 1) To force autoscaling, first install the `kn` binary.
@@ -104,6 +132,8 @@ kn service list
 kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30
 ```
 4) Curl the endpoint a few times and it should trigger a number pods to run.
+
+5) To change the autoscale window use `--autoscale-window=90s`
 
 ### Creating a serverless function from scratch.
 ```
