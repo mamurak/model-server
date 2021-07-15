@@ -12,7 +12,7 @@ Code outside of `main()` will get loaded once when the pod runs and can be consi
 inside of `main()` is invoked each time an http request is made and will contain a new context object.
 
 #### The Client
-`01-iris-rest-client.ipynb` - An example Jupyter notebook client program that will make REST calls to this the service to make predictions.
+`01-iris-rest-client.ipynb` - An example Jupyter notebook client program that will make REST calls to the service and in turn make predictions.
 
 #### The Setup
 
