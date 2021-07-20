@@ -58,13 +58,16 @@ kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandb
 kn func run
 ```
 
-6) If needed, use `podman` to confirm the container is running.
+6) If needed, use `podman` in a separate terminal to confirm the container is running.
 ```
 podman ps
 ```
+Example output
 ```
-2fffd8f49cd5  default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/serverless/model-server:latest                        7 seconds ago  Up 8 seconds ago  127.0.0.1:8080->8080/tcp                                                                                                                                                                    affectionate_lalande
+CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES
+d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin
 ```
+
 7) Test with `curl`.
 
 ```
