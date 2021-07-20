@@ -63,7 +63,6 @@ kn func run
 podman ps
 ```
 ```
-CONTAINER ID  IMAGE                                                                                                 COMMAND               CREATED        STATUS            PORTS                                                                                                                                                                                       NAMES
 2fffd8f49cd5  default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/serverless/model-server:latest                        7 seconds ago  Up 8 seconds ago  127.0.0.1:8080->8080/tcp                                                                                                                                                                    affectionate_lalande
 ```
 7) Test with `curl`.
