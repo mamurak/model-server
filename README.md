@@ -43,9 +43,9 @@ systemctl --user enable --now podman.socket
 export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
 ```
 
-2) Login to an OpenShift cluster as an **admin** user then follow steps 1 and 2 in the Red Hat docs to [expose and login to the OpenShift registry.](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) 
+2) Login to an OpenShift cluster as an **admin** user then follow step 1 in the Red Hat docs to [expose the OpenShift registry.](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) 
 
-3) Login to an OpenShift cluster with serverless support as a *developer* user.
+3) Login to an OpenShift cluster as a **developer** user then [login to the OpenShift registry using podman](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) as a **developer** user. 
 
 4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `route-name/project-name/image-name`.
 ```
