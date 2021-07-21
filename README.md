@@ -54,7 +54,7 @@ podman login -u developer -p $(oc whoami -t) --tls-verify=false $HOST
 Login Succeeded!
 ```
 
-4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `registry-hostname/project-name/image-name`.
+4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `registry-hostname/namespace/image-name`.
 
 ```
 kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/model-server/model-server
