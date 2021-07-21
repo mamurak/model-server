@@ -105,7 +105,7 @@ curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, 
 {"prediction":2}
 ```
 
-Health checks are also provided.
+9) Health checks are also provided.
 
 ```
 curl http://model-server-model-server.apps.ocp.3f4e.sandbox1385.opentlc.com/health/liveness
