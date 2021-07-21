@@ -26,43 +26,41 @@ An example Jupyter notebook client program `01-iris-rest-client.ipynb`, that mak
 #### How to build, deploy and serve the model in this repo.
 1) Start the podman API service as a rootless user. 
 
-```
-podman system service --time=0 tcp:0.0.0.0:1234
-```
-```
-export DOCKER_HOST=tcp://127.0.0.1:1234
-```
+- `podman system service --time=0 tcp:0.0.0.0:1234`
+- `export DOCKER_HOST=tcp://127.0.0.1:1234`
 
 Or use UNIX sockets.
 
-```
-systemctl --user enable --now podman.socket
-```
+- `systemctl --user enable --now podman.socket
+- `export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"`
 
+2) Login to an OpenShift cluster as an **admin** user then follow step 1 in the Red Hat docs to [expose the OpenShift registry](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) and save the route.
+- `HOST=$(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')`
+- echo $HOST
 ```
-export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
+default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com
 ```
-
-2) Login to an OpenShift cluster as an **admin** user then follow step 1 in the Red Hat docs to [expose the OpenShift registry.](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) 
 
 3) Login to an OpenShift cluster as a **developer** user then [login to the OpenShift registry using podman](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) as a **developer** user. 
 
+- `podman login -u developer -p $(oc whoami -t) --tls-verify=false $HOST`
+```
+Login Succeeded!
+```
+
+
 4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `route-name/project-name/image-name`.
-```
-kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/serverless/model-server
-```
+
+- `kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/model-server/model-server`
 
 5) Run the container.
 
-```
-kn func run
-```
+- `kn func run`
 
-6) If needed, use `podman` in a separate terminal to confirm the container is running.
-```
-podman ps
-```
-Example output
+6) If needed, run `podman` in a separate terminal to confirm the container is running.
+
+- `podman ps`
+
 ```
 CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES
 d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin
@@ -70,68 +68,61 @@ d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minut
 
 7) Test with `curl`.
 
-```
-curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://127.0.0.1:8080
-```
+- `curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://127.0.0.1:8080`
 ```
 {"prediction":2}
 ```
 
 7) Finally, deploy to OpenShift.
 
-```
-kn func deploy
-```
+- `kn func deploy`
 ```
 ...
 ...
 ...
 🕒 Deploying function to the cluster
-   Function deployed at URL: http://myfunc-functions.apps.shared-na46.openshift.opentlc.com
+   Function deployed at URL: http://model-server-model-server.apps.ocp.3f4e.sandbox1385.opentlc.com
 ```
 
 8) Test using `curl`.
 
+- `curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-model-server.apps.ocp.3f4e.sandbox1385.opentlc.com`
 ```
-curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-functions.apps.shared-na46.openshift.opentlc.com
+{"prediction":2}
 ```
 #### Autoscaling
 
 1) Get the service name.
-```
-kn service list
-```
+
+- `kn service list`
+
 2) Update the autoscale parameters with unusually low values.
-```
-kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30
-```
-3) Curl the endpoint a few times and it should trigger a number pods to run.
+
+- `kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30`
+
+3) Curl the endpoint a few times and it should trigger a number of pods to run.
 
 4) To change the autoscale window use `--autoscale-window=90s`
 
 #### Manual Configuration
 1) Download the [kn binary](https://github.com/knative/client/tags), `chmod u+x` and place it in `$PATH`.
-```
-chmod u+x kn-linux-amd64
-mv kn-linux-amd64 $HOME/.local/bin/kn
-```
+
+- `chmod u+x kn-linux-amd64`
+- `mv kn-linux-amd64 $HOME/.local/bin/kn`
 
 2) Make the plugin directory
-```
-mkdir $HOME/.config/kn/plugins
-```
+
+- `mkdir $HOME/.config/kn/plugins`
 
 3) [Download](https://github.com/knative-sandbox) your favorite plugins and install them in `$HOME/.config/kn/plugins`.
-```
-chmod u+x func_linux_amd64
-mv func_linux_amd64 
-$HOME/.config/kn/plugins/kn-func
-```
+
+- `chmod u+x func_linux_amd64`
+- `mv func_linux_amd64`
+- `$HOME/.config/kn/plugins/kn-func`
 
 4) Verify
-```
-kn plugin list
-```
+
+- `kn plugin list`
 ```
 - kn-admin : /home/koz/.config/kn/plugins/kn-admin
 - kn-func : /home/koz/.config/kn/plugins/kn-func
@@ -144,15 +135,14 @@ kn plugin list
 
 
 #### Creating a serverless function from scratch.
-```
-mkdir functions
-```
-```
-kn func create --runtime=python functions/myfunc
-```
+
+- `mkdir functions`
+- `kn func create --runtime=python functions/myfunc`
 
 Build, run and deploy the same as above.
 
 #### Reference
 
 [Openshift serverless docs](https://docs.openshift.com/container-platform/4.7/serverless/functions/serverless-functions-about.html)
+
+
