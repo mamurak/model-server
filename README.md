@@ -40,10 +40,9 @@ export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
 HOST=$(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
 echo $HOST
 ```
-
-    default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com
-
-
+```
+default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com
+```
 
 3) Login to an OpenShift cluster as a **developer** user then [login to the OpenShift registry using podman](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) as a **developer** user. 
 
