@@ -66,7 +66,7 @@ kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandb
 kn func run
 ```
 
-6) If needed, run `podman` in a separate terminal to confirm the container is running.
+6) Open a second terminal, confirm the container is running and test it.
 
 ```
 podman ps
@@ -76,9 +76,6 @@ podman ps
 CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES
 d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin
 ```
-
-7) Test with `curl`.
-
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://127.0.0.1:8080
 ```
@@ -106,6 +103,21 @@ curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, 
 ```
 ```
 {"prediction":2}
+```
+
+Health checks are also provided.
+
+```
+curl http://model-server-model-server.apps.ocp.3f4e.sandbox1385.opentlc.com/health/liveness
+```
+```
+OK
+```
+```
+curl http://model-server-model-server.apps.ocp.3f4e.sandbox1385.opentlc.com/health/readiness
+```
+```
+OK
 ```
 #### Autoscaling
 
