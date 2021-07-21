@@ -27,8 +27,6 @@ A few client programs `01-iris-rest-client.ipynb` and `01-iris-rest-curl.sh`, ma
 1) Start the podman API service as a rootless user. 
 ```
 podman system service --time=0 tcp:0.0.0.0:1234
-```
-```
 export DOCKER_HOST=tcp://127.0.0.1:1234
 ```
 Or use UNIX sockets.
@@ -43,16 +41,16 @@ HOST=$(oc get route default-route -n openshift-image-registry --template='{{ .sp
 echo $HOST
 ```
 
-- `default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com`
+`default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com`
 
 
 3) Login to an OpenShift cluster as a **developer** user then [login to the OpenShift registry using podman](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) as a **developer** user. 
 
-- `podman login -u developer -p $(oc whoami -t) --tls-verify=false $HOST`
 ```
-Login Succeeded!
+podman login -u developer -p $(oc whoami -t) --tls-verify=false $HOST
 ```
 
+`Login Succeeded!`
 
 4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `route-name/project-name/image-name`.
 
