@@ -2,7 +2,7 @@ name: model-server
 namespace: ""
 runtime: python
 image: default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/model-server/model-server
-imageDigest: sha256:9347fdd90ecaeff85a9874d38b9515b5b42bcf696440ee8c9b9b42dd92728e52
+imageDigest: sha256:19fe7c10a98297eafc07560495f7430719c182a29e63e85fe44e7b6f37846e8b
 builder: quay.io/boson/faas-python-builder:v0.8.3
 builderMap:
   default: quay.io/boson/faas-python-builder:v0.8.3
