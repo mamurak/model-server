@@ -4,7 +4,16 @@ import json
 import pickle
 import numpy as np
  
-model = None
+#
+# Load the model from storage. This is performed once when the pod runs.
+#
+logging.warning(f'Loading model.')
+try:
+    model = pickle.load(open("iris_rfc.pkl", "rb"))
+    logging.warning(f'Iris model loaded.')
+except Exception as e:
+    logging.warning(f'Load model failed!!!')
+    model = None
 
 def main(context: Context):
     """    Serverless Function 
@@ -14,21 +23,7 @@ def main(context: Context):
 
     Returns:
         [tuple]: (prediction dict, http status)
-    """
-    #
-    # Load the model from storage. Globals are used to prevent the model
-    # from being loaded more than once.
-    #
-    global model
-    
-    if model == None:
-        logging.info(f'Loading model.')
-        try:
-            model = pickle.load(open("iris_rfc.pkl", "rb"))
-            logging.info(f'Iris model loaded.')
-        except Exception as e:
-            logging.warning(f'Load model failed!!!')
-            model = None
+    """    
     #
     # Get the json data from Flask and convert it to a python dictionary.
     #
@@ -45,9 +40,11 @@ def main(context: Context):
     # Call the model's predict function by passing in the numpy array and 
     # return the prediction and an OK status.
     #
+    global model
     try:
         y_hat = model.predict(predict_request)
         output = {'y_hat': int(y_hat[0])}
+        logging.warning(f'Returning prediction.')
         return { "prediction": output['y_hat'] }, 200
     except:
         logging.warning(f'Bad data or prediction')
