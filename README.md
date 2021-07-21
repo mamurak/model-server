@@ -37,6 +37,7 @@ export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
 
 2) Login to an OpenShift cluster as an **admin** user then follow step 1 in the Red Hat docs to [expose the OpenShift registry](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) and save the route.
 ```
+oc new-project model-server
 HOST=$(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
 echo $HOST
 ```
@@ -44,8 +45,10 @@ echo $HOST
 default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com
 ```
 
-3) Login to an OpenShift cluster as a **developer** user then [login to the OpenShift registry using podman](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) as a **developer** user. 
-
+3) Now login to OpenShift as a **developer** user, create a new project, then [login to the OpenShift registry using podman.](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) 
+```
+oc new-project model-server
+```
 ```
 podman login -u developer -p $(oc whoami -t) --tls-verify=false $HOST
 ```
