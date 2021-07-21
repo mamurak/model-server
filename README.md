@@ -13,7 +13,7 @@ serverless function, which gets invoked when an http request is received. Code o
 Code inside of `main()` is invoked each time an http request is received and contains a new context object.
 
 #### Client
-An example Jupyter notebook client program `01-iris-rest-client.ipynb`, that makes REST calls to the serverless service.
+A few client programs `01-iris-rest-client.ipynb` and `01-iris-rest-curl.sh`, make REST calls to the serverless service.
 
 #### Example Setup
 
@@ -31,7 +31,7 @@ An example Jupyter notebook client program `01-iris-rest-client.ipynb`, that mak
 
 Or use UNIX sockets.
 
-- `systemctl --user enable --now podman.socket
+- `systemctl --user enable --now podman.socket`
 - `export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"`
 
 2) Login to an OpenShift cluster as an **admin** user then follow step 1 in the Red Hat docs to [expose the OpenShift registry](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) and save the route.

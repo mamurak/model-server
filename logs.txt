@@ -1,0 +1,61 @@
+WARNING:parliament.server:No CloudEvent available
+WARNING:root:**************************************************************
+WARNING:root:************** main function called.
+WARNING:root:**************  context.request: <Request 'http://localhost:8081/' [POST]>
+WARNING:root:**************  content_length: 44
+WARNING:root:**************  get_data: b'{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}'
+WARNING:root:**************  type: <class 'bytes'>
+WARNING:root:**************  headers: Host: localhost:8081
+User-Agent: curl/7.76.1
+Accept: */*
+Content-Type: application/json
+Content-Length: 44
+
+
+WARNING:root:**************  data: {'sl': 5.9, 'sw': 3.0, 'pl': 5.1, 'pw': 1.8}
+WARNING:root:**************  type(data): <class 'dict'>
+WARNING:root:--------- context: <parliament.invocation.Context object at 0x7fe3573694f0>
+WARNING:root:************** Loading model.
+WARNING:root:************** Iris model loaded.
+WARNING:root:************** prediction: {'y_hat': 2}
+WARNING:root:**************************************************************
+
+WARNING:parliament.server:No CloudEvent available
+WARNING:root:**************************************************************
+WARNING:root:************** main function called.
+WARNING:root:**************  context.request: <Request 'http://localhost:8081/' [POST]>
+WARNING:root:**************  content_length: 44
+WARNING:root:**************  get_data: b'{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}'
+WARNING:root:**************  type: <class 'bytes'>
+WARNING:root:**************  headers: Host: localhost:8081
+User-Agent: curl/7.76.1
+Accept: */*
+Content-Type: application/json
+Content-Length: 44
+
+
+WARNING:root:**************  data: {'sl': 5.9, 'sw': 3.0, 'pl': 5.1, 'pw': 1.8}
+WARNING:root:**************  type(data): <class 'dict'>
+WARNING:root:--------- context: <parliament.invocation.Context object at 0x7fe331424970>
+WARNING:root:************** prediction: {'y_hat': 2}
+WARNING:root:**************************************************************
+
+WARNING:parliament.server:No CloudEvent available
+WARNING:root:**************************************************************
+WARNING:root:************** main function called.
+WARNING:root:**************  context.request: <Request 'http://localhost:8081/' [POST]>
+WARNING:root:**************  content_length: 44
+WARNING:root:**************  get_data: b'{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}'
+WARNING:root:**************  type: <class 'bytes'>
+WARNING:root:**************  headers: Host: localhost:8081
+User-Agent: curl/7.76.1
+Accept: */*
+Content-Type: application/json
+Content-Length: 44
+
+
+WARNING:root:**************  data: {'sl': 5.9, 'sw': 3.0, 'pl': 5.1, 'pw': 1.8}
+WARNING:root:**************  type(data): <class 'dict'>
+WARNING:root:--------- context: <parliament.invocation.Context object at 0x7fe33143cc40>
+WARNING:root:************** prediction: {'y_hat': 2}
+WARNING:root:**************************************************************
