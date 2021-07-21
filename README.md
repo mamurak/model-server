@@ -41,7 +41,9 @@ HOST=$(oc get route default-route -n openshift-image-registry --template='{{ .sp
 echo $HOST
 ```
 
-`default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com`
+```
+default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com
+```
 
 
 3) Login to an OpenShift cluster as a **developer** user then [login to the OpenShift registry using podman](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) as a **developer** user. 
@@ -50,7 +52,9 @@ echo $HOST
 podman login -u developer -p $(oc whoami -t) --tls-verify=false $HOST
 ```
 
-`Login Succeeded!`
+```
+Login Succeeded!
+```
 
 4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `route-name/project-name/image-name`.
 
@@ -77,14 +81,18 @@ d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minut
 
 7) Test with `curl`.
 
-- `curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://127.0.0.1:8080`
+```
+curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://127.0.0.1:8080
+```
 ```
 {"prediction":2}
 ```
 
 7) Finally, deploy to OpenShift.
 
-- `kn func deploy`
+```
+kn func deploy
+```
 ```
 ...
 ...
@@ -95,7 +103,9 @@ d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minut
 
 8) Test using `curl`.
 
-- `curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-model-server.apps.ocp.3f4e.sandbox1385.opentlc.com`
+```
+curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-model-server.apps.ocp.3f4e.sandbox1385.opentlc.com
+```
 ```
 {"prediction":2}
 ```
@@ -103,11 +113,15 @@ d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minut
 
 1) Get the service name.
 
-- `kn service list`
+```
+kn service list
+```
 
 2) Update the autoscale parameters with unusually low values.
 
-- `kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30`
+```
+kn service update <service-name> --concurrency-limit=1 --concurrency-target=1 --concurrency-utilization=30
+```
 
 3) Curl the endpoint a few times and it should trigger a number of pods to run.
 
@@ -116,22 +130,30 @@ d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minut
 #### Manual Configuration
 1) Download the [kn binary](https://github.com/knative/client/tags), `chmod u+x` and place it in `$PATH`.
 
-- `chmod u+x kn-linux-amd64`
-- `mv kn-linux-amd64 $HOME/.local/bin/kn`
+```
+chmod u+x kn-linux-amd64
+mv kn-linux-amd64 $HOME/.local/bin/kn
+```
 
 2) Make the plugin directory
 
-- `mkdir $HOME/.config/kn/plugins`
+```
+mkdir $HOME/.config/kn/plugins
+```
 
 3) [Download](https://github.com/knative-sandbox) your favorite plugins and install them in `$HOME/.config/kn/plugins`.
 
-- `chmod u+x func_linux_amd64`
-- `mv func_linux_amd64`
-- `$HOME/.config/kn/plugins/kn-func`
+```
+chmod u+x func_linux_amd64
+mv func_linux_amd64
+$HOME/.config/kn/plugins/kn-func
+```
 
 4) Verify
 
-- `kn plugin list`
+```
+kn plugin list
+```
 ```
 - kn-admin : /home/koz/.config/kn/plugins/kn-admin
 - kn-func : /home/koz/.config/kn/plugins/kn-func
@@ -144,10 +166,10 @@ d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minut
 
 
 #### Creating a serverless function from scratch.
-
-- `mkdir functions`
-- `kn func create --runtime=python functions/myfunc`
-
+```
+mkdir functions
+kn func create --runtime=python functions/myfunc
+```
 Build, run and deploy the same as above.
 
 #### Reference
