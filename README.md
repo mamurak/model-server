@@ -54,20 +54,25 @@ podman login -u developer -p $(oc whoami -t) --tls-verify=false $HOST
 
 4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `route-name/project-name/image-name`.
 
-- `kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/model-server/model-server`
+```
+kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/model-server/model-server
+```
 
 5) Run the container.
 
-- `kn func run`
+```
+kn func run
+```
 
 6) If needed, run `podman` in a separate terminal to confirm the container is running.
 
-- `podman ps`
+```
+podman ps
+```
 
-```
-CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES
-d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin
-```
+`CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES`
+`d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin`
+
 
 7) Test with `curl`.
 
