@@ -4,7 +4,7 @@
 This project is a simple example on how to deploy a machine learning model using OpenShift Serverless Functions. 
 It is based on a SciKit Learn Random Forest Classifier model that is trained using R.A. Fisher's famous [Iris data set](https://archive.ics.uci.edu/ml/datasets/iris).
 
-#### The Server
+#### Server
 
 The server takes care of loading the ML model, preparing the incoming data, calling the model predictor and returning the prediction to the client.
 
@@ -12,10 +12,10 @@ It consists of a python program `func.py`, which runs in a container when the po
 serverless function, which gets invoked when an http request is received. Code outside of `main()` gets loaded once when the pod runs and can be considered in global scope. 
 Code inside of `main()` is invoked each time an http request is received and contains a new context object.
 
-#### The Client
+#### Client
 An example Jupyter notebook client program `01-iris-rest-client.ipynb`, that makes REST calls to the serverless service.
 
-#### The Setup
+#### Example Setup
 
 - Fedora 34
   - `podman` to build and run containers.
@@ -43,24 +43,13 @@ systemctl --user enable --now podman.socket
 export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
 ```
 
-2) Use `podman` to login to the registry and create an auth file to cache credentials. 
-```
-podman login --authfile $HOME/.docker/config.json reg.redhatgov.io:5000
-```
+2) Login to an OpenShift cluster as an **admin** user then follow step 1 in the Red Hat docs to [expose the OpenShift registry.](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) 
 
-3) Login to an OpenShift cluster with serverless support.
+3) Login to an OpenShift cluster as a **developer** user then [login to the OpenShift registry using podman](https://docs.openshift.com/container-platform/4.7/registry/securing-exposing-registry.html#registry-exposing-secure-registry-manually_securing-exposing-registry) as a **developer** user. 
 
-If an external registry that requires authentication is being used, create and link a secret so OpenShift can pull images from it. 
+4) Build and push the image to OpenShift registry. The format of the ``--image`` argument is `route-name/project-name/image-name`.
 ```
-oc create secret docker-registry reg.redhatgov.io --docker-server=reg.redhatgov.io:5000 --docker-username=redhat --docker-password=password
-```
-```
-oc secrets link default reg.redhatgov.io --for=pull
-```
-
-4) Build and create the image. This example uses a private registry.
-```
-kn func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
+kn func build --image=default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/serverless/model-server
 ```
 
 5) Run the container.
@@ -69,19 +58,26 @@ kn func build --image=reg.redhatgov.io:5000/redhat/myfunc:latest
 kn func run
 ```
 
-The container could also be run from directly from `podman`.
+6) If needed, use `podman` in a separate terminal to confirm the container is running.
 ```
-podman run --rm --name=model-server -p8080:8080 -d reg.redhatgov.io:5000/redhat/model-server:latest
+podman ps
+```
+Example output
+```
+CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES
+d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin
 ```
 
-6) Test locally by sending data with a `curl`.
+7) Test with `curl`.
 
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://127.0.0.1:8080
 ```
+```
+{"prediction":2}
+```
 
-
-7) Finally, deploy to OpenShift via private registry.
+7) Finally, deploy to OpenShift.
 
 ```
 kn func deploy
@@ -94,7 +90,7 @@ kn func deploy
    Function deployed at URL: http://myfunc-functions.apps.shared-na46.openshift.opentlc.com
 ```
 
-8) Test by sending data using `curl`.
+8) Test using `curl`.
 
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"sl": 5.9, "sw": 3.0, "pl": 5.1, "pw": 1.8}' http://model-server-functions.apps.shared-na46.openshift.opentlc.com
