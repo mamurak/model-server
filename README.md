@@ -70,10 +70,10 @@ kn func run
 podman ps
 ```
 
-`CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES`
-
-`d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin`
-
+```
+CONTAINER ID  IMAGE                                             COMMAND  CREATED        STATUS            PORTS                     NAMES
+d0b8a8762705  bob.kozdemba.com:5000/redhat/model-server:latest           7 minutes ago  Up 7 minutes ago  127.0.0.1:8080->8080/tcp  suspicious_hodgkin
+```
 
 7) Test with `curl`.
 
