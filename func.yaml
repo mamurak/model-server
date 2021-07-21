@@ -1,8 +1,8 @@
 name: model-server
 namespace: ""
 runtime: python
-image: bob.kozdemba.com:5000/redhat/model-server:latest
-imageDigest: sha256:259db42c3d9828c1705696d7cf24389296a7247ae081a3140909e076446ffa6a
+image: default-route-openshift-image-registry.apps.ocp.3f4e.sandbox1385.opentlc.com/model-server/model-server
+imageDigest: sha256:9347fdd90ecaeff85a9874d38b9515b5b42bcf696440ee8c9b9b42dd92728e52
 builder: quay.io/boson/faas-python-builder:v0.8.3
 builderMap:
   default: quay.io/boson/faas-python-builder:v0.8.3
