@@ -176,6 +176,17 @@ kn plugin list
 - `/tmp` and `podman` can run out of free space.
 - Don't use port 8080 for the `podman` API service or it will conflict with `kn func run`.
 
+The following error is caused by the self-signed TLS certificates. 
+[Installing letsencrypt certs on OpenShift](https://cloud.redhat.com/blog/requesting-and-installing-lets-encrypt-certificates-for-openshift-4) should fix this.
+
+```
+$ kn func deploy
+
+   Deployin function
+   Pushing function image to the registry
+Error: An image does not exist locally with the tag: default-route-openshift-image-registry.apps.ocp.4c12.sandbox265.opentlc.com/model-server/myfunc:latest
+Error: exit status 1
+```
 
 #### Creating a serverless function from scratch.
 ```
